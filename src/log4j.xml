@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE log4j:configuration SYSTEM 
+"log4j.dtd">
+<log4j:configuration>
+<appender name="ca" class="org.apache.log4j.ConsoleAppender">
+<layout class="org.apache.log4j.PatternLayout">
+<param name="conversionPattern" value="%p [It is interpolated] %m%n"/>
+</layout>
+</appender>
+
+<appender name="fa" 
+class="org.apache.log4j.FileAppender">
+<param name="file" value="tm.log" />
+<param name="append" value="false"/>
+<layout class="org.apache.log4j.PatternLayout">
+<param name="conversionPattern" 
+value="[%p] %m%n"/>
+</layout>
+</appender>
+
+<appender name="rfa" 
+class="org.apache.log4j.RollingFileAppender">
+<param name="file" value="tm.log" />
+<param name="MaxFileSize" value="1024" />
+<param name="MaxBackupIndex" value="10" />
+<layout class="org.apache.log4j.PatternLayout">
+<param name="conversionPattern" 
+value="%c %p %t  %L  %m%n"/>
+</layout>
+</appender>
+
+
+<appender name="dfa" 
+class="org.apache.log4j.DailyRollingFileAppender">
+<param name="file" value="tm.log" />
+<param name="DatePattern" value=".dd-MM-yyyy" />
+<layout class="org.apache.log4j.PatternLayout">
+<param name="conversionPattern" 
+value="%c %p %t  %L  %m%n"/>
+</layout>
+</appender>
+
+<appender name="dba" 
+class="org.apache.log4j.jdbc.JDBCAppender">
+<param name="driver" 
+value="com.mysql.jdbc.Driver" />
+<param name="URL" 
+value="jdbc:mysql://localhost:3306/test" />
+<param name="user" value="root" />
+<param name="password" value="root" />
+<param name="sql" value=
+"insert into MyLog (class,priority,message) values
+('%c','%p','%m')"/>
+</appender>
+
+<appender name="sa" 
+class="org.apache.log4j.net.SocketAppender">
+<param name="port" value="5000" />
+<param name="remoteHost" value="localhost" />
+</appender>
+
+<appender name="smtpa" 
+class="org.apache.log4j.net.SMTPAppender">
+<param name="from" value="" />
+<param name="to" value="" />
+<param name="subject" value="Logger Test" />
+<param name="SMTPHost" value="smtp.gmail.com" />
+<param name="SMTPPort" value="587" />
+<param name="SMTPUsername" value="" />
+<param name="SMTPPassword" value="" />
+<layout class="org.apache.log4j.PatternLayout">
+<param name="conversionPattern" 
+value="%c %p %t  %L  %m%n"/>
+</layout>
+
+</appender>
+
+<!--additivity="false" tells the logger that the message isn't to be
+given to the parent appenders.-->
+<logger name="x" additivity="false">
+<level value="debug"/>
+<appender-ref ref="rfa"/>
+</logger>
+<root>
+<priority value ="debug" />
+<appender-ref ref="ca"/>
+</root>
+</log4j:configuration>
